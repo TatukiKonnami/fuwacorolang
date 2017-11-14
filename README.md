@@ -31,6 +31,11 @@ func main(args: array<string>){
 }
 ```
 
+代入/演算
+```
+int num: (+ 2 (- 3 1)) // num = 2 + (3-1)
+```
+
 
 # 予約語
 
