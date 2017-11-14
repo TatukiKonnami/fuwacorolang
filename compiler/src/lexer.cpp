@@ -58,9 +58,101 @@ TokenStream *LexicalAnalysis(std::string input_fileName){
                 if(token_str == "int"){
                     next_token = new Token(token_str, TOK_INT, line_num);
                 }else if(token_str == "return"){
-                    next_token = new Token(token_str, TOK_RETURN, line_num)
+                    next_token = new Token(token_str, TOK_RETURN, line_num);
+                }else{
+                    next_token = new Token(token_str, TOK_IDENTIFER, line_num);
+                }
+
+            // 数字
+            }
+            else if(isdigit(next_char))
+            {
+                if(next_char=='0')
+                {
+                    token_str += token_char;
+                    next_token = new Token(token_str, TOK_NUMBER)
+                }
+                else
+                {
+                    token_str += next_char;
+                    next_char = cur_line.at(index++);
+                    while(isdigit(next_char))
+                    {
+                        token_str += next_char;
+                        next_char = cur_line.at(index++);
+                    }
+                    next_token = new Token(token_str, TOK_NUMBER, line_num);
+                    index--;
+                }
+
+            // コメントor徐算演算 区別つかないため
+            }
+            else if(next_char == '/')
+            {
+                token_str += next_char;
+                next_char = cur_line.at(index++);
+
+                // コメントのとき
+                if(next_char == '/')
+                {
+                    break;
+                }
+                else if (next_char == '*')
+                {
+                    iscoment = true;
+                    continue;
+                }
+                //除算のとき
+                else
+                {
+                    index--;
+                    next_token = new Token(token_str, TOK_SYMBOL, line_num);
+                }
+            
+            // それ以外(記号)
+            }
+            else
+            {
+                if(next_char == '*' ||
+                   next_char == '+' ||
+                   next_char == ':' ||
+                   next_char == ';' ||
+                   next_char == ',' ||
+                   next_char == '(' ||
+                   next_char == ')' ||
+                   next_char == '{' ||
+                   next_char == '}' || )
+                {
+                    token_str += next_char;
+                    next_token = new Token(token_str, TOK_SYMBOL, line_num);
+
+                // とりあえず解析不可
+                }else
+                {
+                    fprintf(stderr, "undefine token : %c", next_char);
+                    SAFE_DELETE(tokens);
+                    return NULL;
                 }
             }
+
+            // Tokenに追加
+            tokens -> pushToken(next_token);
+            token_str.clear();
         }
+        token_str.clear();
+        line_num++;
     }
+
+    // Check EOF
+    if(ifs.eof())
+    {
+        tokens -> pushToken(
+            new Token(token_str, TOK_EOF, line_num)
+            );
+    }
+
+
+    // close
+    ifs.close();
+    return tokens;
 }

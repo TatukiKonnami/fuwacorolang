@@ -12,6 +12,7 @@
 enum TokenType{
     TOK_IDENTIFER,
     TOK_NUMBER,
+    TOK_SYMBOL,
     TOK_INT,
     TOK_FLOAT,
     TOK_BOOL,
