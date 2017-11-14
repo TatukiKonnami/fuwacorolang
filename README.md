@@ -19,13 +19,14 @@
 - 型推論くらいは流行り故取り入れたい
 - 他にも強そうな機能が欲しい
 - パッケージシステム的なのを作れると色々使ってもらえそう
+- 気持ちkotlinに影響受ける感じになりそう（作者の流行り）
 
 
 # 言語構文
 
 HelloWorldはこんな感じで
 ```
-func main(){
+func main(args: array<string>){
     println('Hello, World')
 }
 ```
@@ -44,6 +45,8 @@ func main(){
 **string**
 
 **object**
+
+**array**
 
 ## 制御
 
